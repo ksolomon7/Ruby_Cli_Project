@@ -12,4 +12,3 @@ gem "faker"
 
 gem "colorize"
 gem "tty-prompt"
-gem ""
