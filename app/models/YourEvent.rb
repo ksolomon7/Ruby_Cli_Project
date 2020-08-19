@@ -89,7 +89,7 @@ class YourEvent
       elsif navigator == "Update Your Events"
         puts "you're here"
       elsif navigator == "Delete Your Events"
-        puts "you're here"
+        Event.delete_events(role)
       elsif navigator == "Logout"
        YourEvent.Logout 
       end

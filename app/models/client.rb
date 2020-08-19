@@ -43,11 +43,7 @@ class Client < ActiveRecord::Base
         puts "....going back to the main page!!".colorize(:yellow)
         sleep 4
         YourEvent.home_page(role)
-
-
     end
-
-
 
 
     def self.create_event_for_client(role)
@@ -71,7 +67,21 @@ class Client < ActiveRecord::Base
            YourEvent.home_page(role)
     end
 
+    def self.delete_event_for_client(role)
+        parties= Event.where(client_id: role.id)
+        options=parties.map do |party|
+          party.event_name
+        end
 
+        puts "Which event would you like to remove?"
+        prompt=TTY::Prompt.new
+        event_options= prompt.select("\n", options)
+        deleting_event=Event.find_by(event_name: event_options)
+        deleting_event.destroy
+        puts "\n"
+        puts "Your event has been removed!".colorize(:red)
+        YourEvent.home_page(role)
+    end
 # Notes
 # event_planner_choices= EventPlanner.all.collect do |event_planner|
 #     event_planner.name

@@ -50,9 +50,9 @@ end
         
 
       result = prompt.collect do
-        key(:event_name).ask("What would you like to call your event?").capitalize
+        key(:event_name).ask("What would you like to call your event?") 
         key(:date).ask("When is your event? (Enter: DD/MM/YYYY):", convert: :date)
-        key(:location).ask("In what location, are you having this event?").capitalize
+        key(:location).ask("In what location, are you having this event?")
         key(:duration).ask("How long is your event going to be?(Enter in the format: 2 hrs)")
         key(:event_planner_id).ask("Validate your account number", value: "#{role.id}")
         key(:client_id).ask("Who is your client?", value: "None")
@@ -65,6 +65,22 @@ end
        puts "\n"
        sleep 3
        YourEvent.home_page(role)
+    end
+
+    def self.delete_event_for_event_planner(role)
+      parties= Event.where(event_planner_id: role.id)
+      options=parties.map do |party|
+        party.event_name
+      end
+
+      puts "Which event would you like to remove?"
+      prompt=TTY::Prompt.new
+      event_options= prompt.select("\n", options)
+      deleting_event=Event.find_by(event_name: event_options)
+      deleting_event.destroy
+      puts "\n"
+      puts "Your event has been removed!".colorize(:red)
+      YourEvent.home_page(role)
     end
 
 end
