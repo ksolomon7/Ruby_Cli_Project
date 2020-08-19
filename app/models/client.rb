@@ -1,3 +1,4 @@
+require 'pry'
 class Client < ActiveRecord::Base
     has_many :events
     has_many :event_planners, through: :events
@@ -56,17 +57,22 @@ class Client < ActiveRecord::Base
     def self.create_event_for_client(role)
         prompt=TTY::Prompt.new
 
-        result = prompt.collect do
-            key(:event_name).ask("What would you like to call your event?").capitalize
-            key(:date).ask("When is your event? (Enter: DD/MM/YYYY):", convert: :date)
-            key(:location).ask("In what location, are you having this event?").capitalize
-            key(:duration).ask("How long is your event going to be?(Enter in the format: 2 hrs)")
-            key(:client_id).ask("Validate your account number", value: "#{role.id}")
-            key(:event_planner_id).ask("Who is your event planner?", value: "None")
-            # how can you select from event planner list and push that value into result /results[key]=value 
-        end
-           new_event=Event.create(result)
-
+        event_planner_options= EventPlanner.all.map do |event_planner|
+                                    event_planner.name
+                               end
+        
+        
+        event_name=prompt.ask("What would you like to call your event?")
+        date=prompt.ask("When is your event? (Enter: DD/MM/YYYY):", convert: :date)
+        location=prompt.ask("In what location, are you having this event?")
+        duration=prompt.ask("How long is your event going to be?(Enter in the format: 2 hrs)")
+        client_id=prompt.ask("Validate your account number", value: "#{role.id}")
+        event_planner= prompt.select("Choose an event planner?", event_planner_options)
+    
+          
+        planner_id=EventPlanner.find_by(name: event_planner).id
+        Event.create(event_name: event_name, date: date, location: location, duration: duration, client_id: client_id, event_planner_id: planner_id)
+     
 
            puts "\n"
            puts "Event has been created! You will be redirected to the main_menu to view the events.".colorize(:yellow)
