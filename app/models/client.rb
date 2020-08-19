@@ -8,12 +8,12 @@ class Client < ActiveRecord::Base
         puts "You have #{role.events.count} events!"
 
         if role.events.count == 0
-            YourEvent.home_page
+            YourEvent.home_page(role)
         else 
-        parties= Event.where(client_id: role.id)
-        options=parties.map do |party|
-          party.event_name
-        end
+            parties= Event.where(client_id: role.id)
+            options=parties.map do |party|
+                    party.event_name
+                    end
     
         prompt=TTY::Prompt.new
         move= prompt.select("\n", options)
@@ -71,6 +71,7 @@ class Client < ActiveRecord::Base
            puts "\n"
            puts "Event has been created! You will be redirected to the main_menu to view the events.".colorize(:yellow)
            puts "\n"
+
            sleep 3
            YourEvent.home_page(role)
     end
