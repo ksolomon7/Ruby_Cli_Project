@@ -16,6 +16,10 @@ class Event < ActiveRecord::Base
   def self.delete_events(role)  
     Event.is_for_a_client_or_an_event_planner_deleting_event?(role)
   end
+
+  def self.update_events(role)
+    Event.is_for_a_client_or_an_event_planner_updating_event?(role)
+  end
   ################################################HELPER METHOD#####################################################################
 
   def self.is_for_a_client_or_an_event_planner?(role)
@@ -39,6 +43,14 @@ class Event < ActiveRecord::Base
       Client.delete_event_for_client(role)
     elsif EventPlanner.find_by(email: role.email)
       EventPlanner.delete_event_for_event_planner(role)
+    end
+  end
+
+  def self.is_for_a_client_or_an_event_planner_updating_event?(role)
+    if Client.find_by(email: role.email)
+      Client.update_event_for_client(role)
+    elsif EventPlanner.find_by(email: role.email)
+      EventPlanner.update_event_for_event_planner(role)
     end
   end
 end

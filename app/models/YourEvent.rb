@@ -36,7 +36,7 @@ class YourEvent
          if role.find_by(email: email) != nil
             puts "Welcome back #{role.find_by(email: email).name}!".colorize(:yellow)
             sleep 3
-          main_menu(role.find_by(email: email))
+          YourEvent.main_menu(role.find_by(email: email))
          elsif role.find_by(email: email) == nil
             puts "Sorry! This email does not exist.".colorize(:red)
             sleep 3
@@ -54,7 +54,7 @@ class YourEvent
             key(:phone_number).ask("What is your cellphone number?")
             key(:email).ask("Verify your email")
             end
-            main_menu(role_str.create(result))
+            YourEvent.main_menu(role_str.create(result))
         elsif role_str == EventPlanner
           result = prompt.collect do
             key(:name).ask("What is your fullname?")
@@ -63,15 +63,16 @@ class YourEvent
             key(:email).ask("Verify your email")
             key(:title).ask("Are you a Senior EventPlanner or Junior EventPlanner?")
             end
-            main_menu(role_str.create(result))
+            YourEvent.main_menu(role_str.create(result))
           end
    end
 
-   def main_menu(role)
+   def self.main_menu(role)
       puts '*******************************************************************************************************************************'.colorize(:blue)
       puts '                                                     MAIN MENU                                                                 '.colorize(:yellow)
       puts '*******************************************************************************************************************************'.colorize(:blue)
       puts "Welcome to the main menu #{role.name}! Please choose from the following options:".colorize(:yellow)
+      system 'clear'
       YourEvent.home_page(role)
    end
 
@@ -87,7 +88,7 @@ class YourEvent
       elsif navigator == "Create An Event"
         Event.create_events(role)
       elsif navigator == "Update Your Events"
-        puts "you're here"
+        Event.update_events(role)
       elsif navigator == "Delete Your Events"
         Event.delete_events(role)
       elsif navigator == "Logout"
@@ -102,7 +103,7 @@ class YourEvent
 
 
     def self.Logout
-      puts "Come back soon.".colorize(:blue)
+      puts "           Come back soon.              ".colorize(:blue)
     end
 end
 

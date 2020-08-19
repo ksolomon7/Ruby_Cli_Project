@@ -6,6 +6,10 @@ class Client < ActiveRecord::Base
 
     def self.view_event_for_client(role)
         puts "You have #{role.events.count} events!"
+
+        if role.events.count == 0
+            YourEvent.home_page
+        else 
         parties= Event.where(client_id: role.id)
         options=parties.map do |party|
           party.event_name
@@ -39,10 +43,13 @@ class Client < ActiveRecord::Base
             puts "***********************************************************************".colorize(:green) 
           end
         end
+    end
+
         puts "\n"
         puts "....going back to the main page!!".colorize(:yellow)
         sleep 4
-        YourEvent.home_page(role)
+        system 'clear'
+        YourEvent.main_menu(role)
     end
 
 
@@ -56,6 +63,7 @@ class Client < ActiveRecord::Base
             key(:duration).ask("How long is your event going to be?(Enter in the format: 2 hrs)")
             key(:client_id).ask("Validate your account number", value: "#{role.id}")
             key(:event_planner_id).ask("Who is your event planner?", value: "None")
+            # how can you select from event planner list and push that value into result /results[key]=value 
         end
            new_event=Event.create(result)
 
