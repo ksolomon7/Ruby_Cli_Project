@@ -1,8 +1,8 @@
-class Client < ActiveRecord::Base
-    has_many :events
-    has_many :event_planners, through: :events
+class EventPlanner < ActiveRecord::Base
+  has_many :events
+  has_many :clients, through: :events
 
-    attr_accessor :yourevent
+  attr_accessor :yourevent
 
     def self.create_event_for_client(role)
         prompt=TTY::Prompt.new

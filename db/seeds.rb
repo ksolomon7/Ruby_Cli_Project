@@ -18,7 +18,7 @@ end
 
 def create_event_planner 
 
-    title_name = ["Senior Event Planner", "Junior Event Planner"].sample
+    title_name = ["Senior EventPlanner", "Junior EventPlanner"].sample
     event_planner= EventPlanner.create(
         name: Faker::Name.name_with_middle,
         phone_number: Faker::PhoneNumber.cell_phone,
@@ -49,6 +49,7 @@ end
   daisy= Client.create(name: "Daisy", phone_number: "212-914-2567", email: "klmnt@yahoo.com")
   bella= EventPlanner.create(name: "Bella", phone_number: "545-279-0765", years_of_experience: 10, email: "belb12@yahoo.com", title: "Senior Event Planner")
   party= Event.create(event_name: "Party Central", date: Faker::Date.in_date_period, location: "Los Angeles", duration: "2 hrs", client_id:Client.find_by(name: "Daisy").id, event_planner_id: EventPlanner.find_by(name: "Bella").id )
+  alcohol=Event.create(event_name: "Booze Fest", date: Faker::Date.in_date_period, location: "In my room", duration: "6 hrs", client_id:Client.find_by(name: "Daisy").id, event_planner_id: EventPlanner.find_by(name: "Bella").id )
 ############################Task -stretch feature######################################
 #   def create_task(event)
 #         status_option= ["Complete", "Incomplete", "Pending"].sample

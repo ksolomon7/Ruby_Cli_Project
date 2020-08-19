@@ -1,13 +1,18 @@
 class YourEvent
 
-   attr_accessor :prompt
+   attr_accessor :prompt, :client, :event, :eventplanner
    
    def initialize
     @prompt=TTY::Prompt.new
    end
 
    def welcome
-    puts "Welcome to YourEvents. The app that knows what fun you are up to!".colorize(:yellow)
+    puts ".....................................................................................".colorize(:white)
+    puts "\n"
+    puts "      Welcome to YourEvents. The app that knows what fun you are up to!".colorize(:yellow)
+    puts "\n"
+    puts ".....................................................................................".colorize(:white)
+
    end
 
    def client_or_event_planner
@@ -35,7 +40,8 @@ class YourEvent
          elsif role.find_by(email: email) == nil
             puts "Sorry! This email does not exist.".colorize(:red)
             sleep 3
-            login(client_or_event_planner)
+            # login(client_or_event_planner)
+            login_or_register
         end
    end
 
@@ -48,14 +54,16 @@ class YourEvent
             key(:phone_number).ask("What is your cellphone number?")
             key(:email).ask("Verify your email")
             end
-            role_str.create(result)
+            main_menu(role_str.create(result))
         elsif role_str == EventPlanner
           result = prompt.collect do
             key(:name).ask("What is your fullname?")
             key(:phone_number).ask("What is your cellphone number?")
-            key(:email).ask(Verify your email)
+            key(:years_of_experience).ask("How many years of experience do you have?", convert: :int)
+            key(:email).ask("Verify your email")
+            key(:title).ask("Are you a Senior EventPlanner or Junior EventPlanner?")
             end
-            role_str.create(result)
+            main_menu(role_str.create(result))
           end
    end
 
@@ -63,14 +71,39 @@ class YourEvent
       puts '*******************************************************************************************************************************'.colorize(:blue)
       puts '                                                     MAIN MENU                                                                 '.colorize(:yellow)
       puts '*******************************************************************************************************************************'.colorize(:blue)
-      puts "Welcome to the main menu. Please choose from the following options:".colorize(:yellow)
-      user_home_page(role)
+      puts "Welcome to the main menu #{role.name}! Please choose from the following options:".colorize(:yellow)
+      YourEvent.home_page(role)
    end
 
-   def run
-    welcome
-    login_or_register
- end
+
+     def self.home_page(role)
+
+      choices = ["View Events", "Create An Event", "Update Your Events", "Delete Your Events", "Logout"]
+
+      prompt=TTY::Prompt.new
+      navigator = prompt.select("\n", choices)
+      if navigator == "View Events"
+        Event.view_events(role)
+      elsif navigator == "Create An Event"
+        Event.create_events(role)
+      elsif navigator == "Update Your Events"
+        puts "you're here"
+      elsif navigator == "Delete Your Events"
+        puts "you're here"
+      elsif navigator == "Logout"
+       YourEvent.Logout 
+      end
+    end
+
+    def run
+      welcome
+      login_or_register
+    end
+
+
+    def self.Logout
+      puts "Come back soon.".colorize(:blue)
+    end
 end
 
    ##########################################################HELPER METHODS################################################
@@ -82,16 +115,6 @@ end
       q.messages[:valid?]="Invalid email address"
     end
    end
-  #  def user_home_page(role)
-  #     choices = ["View Events", "Create An Event", "Update Your Events", "Delete Your Events", "Logout"]
-  #     navigator = @@prompt.select("\n", choices)
-  #     if nav == "View Events"
-  #       user.select_a_tip
-  #     elsif nav == "Saved Tips"
-  #       user.user_saved_tips
-  #     else
-  #       CommandLineInterface.landing_page
-  #     end
-  #   end
+  
 
    
