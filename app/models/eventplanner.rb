@@ -7,9 +7,7 @@ class EventPlanner < ActiveRecord::Base
   def self.view_event_for_event_planner(role)
     puts "You have #{role.events.count} events!"
     parties= Event.where(event_planner_id: role.id)
-    options=parties.map do |party|
-      party.event_name
-    end
+    options=parties.map { |party| party.event_name }
 
     prompt=TTY::Prompt.new
     move= prompt.select("\n", options)
@@ -45,21 +43,18 @@ class EventPlanner < ActiveRecord::Base
     YourEvent.home_page(role)
 end
 
-    def self.create_event_for_client(role)
+    def self.create_event_for_event_planner(role)
         prompt=TTY::Prompt.new
         
-
-      result = prompt.collect do
-        key(:event_name).ask("What would you like to call your event?") 
-        key(:date).ask("When is your event? (Enter: DD/MM/YYYY):", convert: :date)
-        key(:location).ask("In what location, are you having this event?")
-        key(:duration).ask("How long is your event going to be?(Enter in the format: 2 hrs)")
-        key(:event_planner_id).ask("Validate your account number", value: "#{role.id}")
-        key(:client_id).ask("Who is your client?", value: "None")
-      end
-         Event.create(result)
-
-
+      event_name = prompt.ask("What would you like to call your event?") 
+      date = prompt.ask("When is your event? (Enter: DD/MM/YYYY):", convert: :date)
+      location = prompt.ask("In what location, are you having this event?")
+      duration = prompt.ask("How long is your event going to be?(Enter in the format: 2 hrs)")
+      event_planner_id = prompt.ask("Validate your account number", value: "#{role.id}")
+      client_id = Client.all.map { |client| client.name }
+      select_client_name = prompt.select("Who is your client?", client_id)
+      client_name = Client.find_by(name: select_client_name).id
+      Event.create(event_name: event_name, date: date, location: location, duration: duration, client_id: client_name, event_planner_id: event_planner_id)
        puts "\n"
        puts "Event has been created! You will be redirected to the main_menu to view the events.".colorize(:yellow)
        puts "\n"

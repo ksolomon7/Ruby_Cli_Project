@@ -12,10 +12,8 @@ class Client < ActiveRecord::Base
             YourEvent.home_page(role)
         else 
             parties= Event.where(client_id: role.id)
-            options=parties.map do |party|
-                    party.event_name
-                    end
-    
+            options=parties.map {|party|party.event_name}
+          
         prompt=TTY::Prompt.new
         move= prompt.select("\n", options)
     
@@ -57,11 +55,8 @@ class Client < ActiveRecord::Base
     def self.create_event_for_client(role)
         prompt=TTY::Prompt.new
 
-        event_planner_options= EventPlanner.all.map do |event_planner|
-                                    event_planner.name
-                               end
-        
-        
+        event_planner_options= EventPlanner.all.map {|event_planner| event_planner.name}
+                        
         event_name=prompt.ask("What would you like to call your event?")
         date=prompt.ask("When is your event? (Enter: DD/MM/YYYY):", convert: :date)
         location=prompt.ask("In what location, are you having this event?")

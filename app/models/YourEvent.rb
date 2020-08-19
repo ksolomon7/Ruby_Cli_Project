@@ -101,6 +101,7 @@ class YourEvent
       login_or_register
     end
 
+    
 
     def self.Logout
       puts "           Come back soon.              ".colorize(:blue)
