@@ -1,11 +1,13 @@
 class YourEvent
 
-   attr_accessor :prompt, :client, :event, :eventplanner
+   attr_accessor :prompt, :client, :event, :eventplanner, :art 
+
    
    def initialize
     @prompt=TTY::Prompt.new
    end
 
+  
    def welcome
     puts ".....................................................................................".colorize(:white)
     puts "\n"
@@ -67,19 +69,10 @@ class YourEvent
             key(:title).ask("Are you a Senior EventPlanner or Junior EventPlanner?")
             end
             YourEvent.home_page(role_str.create(result))
-            # YourEvent.main_menu(role_str.create(result))
           end
    end
 
-  #  def self.main_menu(role)
-  #     puts '*******************************************************************************************************************************'.colorize(:blue)
-  #     puts '                                                     MAIN MENU                                                               '.colorize(:yellow)
-  #     puts '*******************************************************************************************************************************'.colorize(:blue)
-  #     puts "Welcome back #{role.name.capitalize}!".colorize(:yellow) 
-  #     YourEvent.home_page(role)
-  #  end
-
-
+ 
      def self.home_page(role)
       puts '*******************************************************************************************************************************'.colorize(:blue)
       puts '                                                     YOUR EVENTS                                                              '.colorize(:yellow)
@@ -103,13 +96,14 @@ class YourEvent
     end
 
     def run
+      Art.logo
       welcome
       login_or_register
     end
 
     def self.Logout
       puts "\n"
-      puts " ❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️Come back soon.❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️".colorize(:blue)
+      puts " ❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️Come back soon❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️".colorize(:blue)
       puts "\n"
     end
 end
@@ -124,5 +118,12 @@ end
     end
    end
   
-
+#########just in case
    
+ #  def self.main_menu(role)
+  #     puts '*******************************************************************************************************************************'.colorize(:blue)
+  #     puts '                                                     MAIN MENU                                                               '.colorize(:yellow)
+  #     puts '*******************************************************************************************************************************'.colorize(:blue)
+  #     puts "Welcome back #{role.name.capitalize}!".colorize(:yellow) 
+  #     YourEvent.home_page(role)
+  #  end
