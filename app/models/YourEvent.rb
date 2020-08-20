@@ -34,7 +34,7 @@ class YourEvent
        puts "Please provide your email to login:".colorize(:yellow)
        email=STDIN.gets.chomp.downcase
          if role.find_by(email: email) != nil
-            puts "Welcome back #{role.find_by(email: email).name}!".colorize(:yellow)
+            puts "Welcome back, #{role.find_by(email: email).name}!".colorize(:yellow)
             sleep 3
             system 'clear'
             YourEvent.home_page(role.find_by(email: email))

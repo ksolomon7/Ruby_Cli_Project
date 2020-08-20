@@ -16,7 +16,6 @@ class Client < ActiveRecord::Base
             parties= Event.where(client_id: role.id)
             options=parties.map {|party|party.event_name}
           
-       
         move=@@prompt.select("\n", options)
     
         options.select do |event|
@@ -94,18 +93,41 @@ class Client < ActiveRecord::Base
     end
 
     def self.update_event_for_client(role)
-            choices=["Change Event Name", "Change EventPlanner","Change Event Date", "Change Duration", "Change Location", "Go back"]
+            parties= Event.where(client_id: role.id)
+            options=parties.map {|party|party.event_name}
+            event_options=@@prompt.select("\n", options)
+            choices=["Change Event Name", "Change Event Date", "Change Duration", "Change Location", "Go back"]
 
             navigator= @@prompt.select("Please select an option:", choices)
 
             if navigator == "Change Event Name"
-                Client.change_event_name(role)
-            elsif navigator == "Change EventPlanner"
-                Client.change_event_planner_name(role)
+              found_event=Event.find_by(event_name: event_options)
+              new_name=@@prompt.ask("What is the new event name?")
+              new_name_change=found_event.update(event_name: new_name)
+              sleep 3
+              system 'clear'
+              YourEvent.home_page(role)
+            elsif navigator == "Change Event Date"
+              found_event=Event.find_by(event_name: event_options)
+              date=@@prompt.ask("When is the event date? DD/MM/YYYY")
+              date_change=found_event.update(date: date)
+              sleep 3
+              system 'clear'
+              YourEvent.home_page(role)
             elsif navigator == "Change Duration"
-
+              found_event=Event.find_by(event_name: event_options)
+              duration=@@prompt.ask("How long is the event?")
+              duration_change=found_event.update(duration: duration)
+              sleep 3
+              system 'clear'
+              YourEvent.home_page(role)
             elsif navigator == "Change Location"
-
+              found_event=Event.find_by(event_name: event_options)
+              location=@@prompt.ask("Where is the new location?")
+              location_change=found_event.update(location: location)
+              sleep 3
+              system 'clear'
+              YourEvent.home_page(role)
             elsif navigator == "Go back"
                 puts "Going back to the main menu!".colorize(":yellow")
                 sleep 3
@@ -113,58 +135,5 @@ class Client < ActiveRecord::Base
                 YourEvent.home_page(role)
             end
     end
-
-    
-
-#################################HELPER METHODS################################################
-
-    def self.change_event_name(role)
-        parties= Event.where(client_id: role.id)
-        options=parties.map {|party|party.event_name}
-        event_options=@@prompt.select("\n", options)
-
-        if event_options 
-            found_event=Event.find_by(event_name: event_options)
-            new_name=@@prompt.ask("What is the new event name?")
-            new_name_change=found_event.update(event_name: new_name)
-            sleep 3
-            system 'clear'
-            YourEvent.home_page(role)
-        end
-
-    end
-
-    def self.change_event_planner_name(role)
-
-        parties= Event.where(client_id: role.id)
-        options=EventPlanner.all
-        
-        event_options=@@prompt.select("\n", options)
-        
-
-        if event_options 
-            found_event=Event.find_by(event_planner: options)
-            new_name=@@prompt.ask("Who is your new EventPlanner?")
-            new_name_change=found_event.update(event_name: new_name)
-            sleep 3
-            system 'clear'
-            YourEvent.home_page(role)
-        end
-
-
-
-    end
-# event_planner_choices= EventPlanner.all.collect do |event_planner|
-#     event_planner.name
-# end
-
-        #  To update the client_id to an integer
-        #    Event.last.select do |info|
-        #      if info.client_id
-        #         info.client_id.to_in
-        #      end
-        #    end
-#added this to self.create_event_for_client because I wanted to add the specific client id by doing result[:client.id]= role.id
-# can add name for event planner and pick from eventplanner.all
 
 end
