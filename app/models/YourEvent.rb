@@ -58,8 +58,10 @@ class YourEvent
             key(:phone_number).ask("What is your cellphone number?")
             key(:email).ask("Verify your email")
             end
+            puts "Welcome to YourEvent page!".colorize(:yellow)
+            sleep 2
+            system 'clear'
             YourEvent.home_page(role_str.create(result))
-            # YourEvent.main_menu(role_str.create(result))
         elsif role_str == EventPlanner
           result = prompt.collect do
             key(:name).ask("What is your fullname?")
@@ -68,6 +70,9 @@ class YourEvent
             key(:email).ask("Verify your email")
             key(:title).ask("Are you a Senior EventPlanner or Junior EventPlanner?")
             end
+            puts "Welcome to YourEvent page!".colorize(:yellow)
+            sleep 2
+            system 'clear'
             YourEvent.home_page(role_str.create(result))
           end
    end
@@ -75,7 +80,9 @@ class YourEvent
  
      def self.home_page(role)
       puts '*******************************************************************************************************************************'.colorize(:blue)
-      puts '                                                     YOUR EVENTS                                                              '.colorize(:yellow)
+      a= Artii::Base.new 
+      puts a.asciify ('                                  YourEvent                                                                ')
+      # puts '                                  YOUR EVENTS                                                       '.colorize(:yellow)
       puts '*******************************************************************************************************************************'.colorize(:blue)
       puts "Please choose from the following options:".colorize(:yellow)
       choices = ["View Events", "Create An Event", "Update Your Events", "Delete Your Events", "Logout"]
@@ -96,15 +103,19 @@ class YourEvent
     end
 
     def run
-      Art.logo
+      Art.picture_two
       welcome
       login_or_register
     end
 
     def self.Logout
+      system 'clear'
       puts "\n"
+      Art.picture_one
       puts " ❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️Come back soon❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️".colorize(:blue)
       puts "\n"
+      sleep 2
+      system 'clear'
     end
 end
 
@@ -118,12 +129,3 @@ end
     end
    end
   
-#########just in case
-   
- #  def self.main_menu(role)
-  #     puts '*******************************************************************************************************************************'.colorize(:blue)
-  #     puts '                                                     MAIN MENU                                                               '.colorize(:yellow)
-  #     puts '*******************************************************************************************************************************'.colorize(:blue)
-  #     puts "Welcome back #{role.name.capitalize}!".colorize(:yellow) 
-  #     YourEvent.home_page(role)
-  #  end

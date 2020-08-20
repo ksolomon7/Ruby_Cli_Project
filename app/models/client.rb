@@ -84,11 +84,14 @@ class Client < ActiveRecord::Base
         end
 
         puts "Which event would you like to remove?"
+        
         event_options=@@prompt.select("\n", options)
         deleting_event=Event.find_by(event_name: event_options)
         deleting_event.destroy
         puts "\n"
         puts "Your event has been removed!".colorize(:red)
+        sleep 2
+        system 'clear'
         YourEvent.home_page(role)
     end
 

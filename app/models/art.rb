@@ -1,7 +1,7 @@
 class Art
 
 
-def self.logo 
+def self.picture_one
 
         puts "         ,.,
         MMMM_    ,..,
@@ -20,7 +20,41 @@ def self.logo
 ".colorize(:magenta)
 
 a= Artii::Base.new 
-puts a.asciify ('YourEvent')
+puts a.asciify ('GoodBye!')
 end
+
+def self.picture_two
+system 'clear'
+
+    puts "\n"
+    puts "\n"
+    puts "
+                          `       `     :     
+                     '.    ;    :    ;    ,`
+                 `-.   '.   ;   :   ;   ,`   ,-`
+              `-.   '-.  '.  ;  :  ;  ,`  ,-`   ,-`
+                 `-.   '-. '. ; : ; ,` ,-`   ,-`
+             ``--.   ``-.  `-.'  '  `.-`  ,-``   ,--``
+                 ``--.  '`-.   ...   ,-``  ,--```
+                      '`--.  .:::::.  ,--``
+-----------------------------:::::::-------------------------------------
+                               ~~~~~
+                                    ~~~
+                                           ~
+
+-------------------------------------------------------------------------".colorize(:magenta)
+
+a= Artii::Base.new 
+puts a.asciify ('           YourEvent             ')
+
+# puts "____    ____  ______    __    __  `______       ___________    ____  _______ `__   __` `___________`".colorize(:cyan)
+# puts "\   \  /   / /  __  \  |  |  |  | |   _  \     |   ____\   \  /   / |   ____||  \ |  | |           |".colorize(:cyan)
+# puts " \   \/   / |  |  |  | |  |  |  | |  |_)  |    |  |__   \   \/   /  |  |__   |   \|  | `---|  |----`".colorize(:cyan)
+# puts "  \_    _/  |  |  |  | |  |  |  | |      /     |   __|   \      /   |   __|  |  . `  |     |  |     ".colorize(:cyan)
+# puts "    |  |    |  `--`  | |  `--`  | |  |\  \----.|  |____   \    /    |  |____ |  |\   |     |  |     ".colorize(:cyan)
+# puts "    |__|     \______/   \______/  | _| `._____||_______|   \__/     |_______||__| \__|     |__|     ".colorize(:cyan)
+
+end
+
 
 end

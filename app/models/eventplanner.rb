@@ -40,6 +40,7 @@ class EventPlanner < ActiveRecord::Base
     puts "\n"
     puts "....going back to the main page!!".colorize(:yellow)
     sleep 4
+    system 'clear'
     YourEvent.home_page(role)
 end
 
@@ -74,7 +75,52 @@ end
       deleting_event.destroy
       puts "\n"
       puts "Your event has been removed!".colorize(:red)
+      sleep 2
+      system 'clear'
       YourEvent.home_page(role)
     end
 
+    def self.update_event_for_event_planner(role)
+      parties= Event.where(event_planner_id: role.id)
+      options=parties.map {|party|party.event_name}
+      event_options=@@prompt.select("\n", options)
+      choices=["Change Event Name", "Change Event Date", "Change Duration", "Change Location", "Go back"]
+
+      navigator= @@prompt.select("Please select an option:", choices)
+
+      if navigator == "Change Event Name"
+        found_event=Event.find_by(event_name: event_options)
+        new_name=@@prompt.ask("What is the new event name?")
+        new_name_change=found_event.update(event_name: new_name)
+        sleep 3
+        system 'clear'
+        YourEvent.home_page(role)
+      elsif navigator == "Change Event Date"
+        found_event=Event.find_by(event_name: event_options)
+        date=@@prompt.ask("When is the event date? DD/MM/YYYY")
+        date_change=found_event.update(date: date)
+        sleep 3
+        system 'clear'
+        YourEvent.home_page(role)
+      elsif navigator == "Change Duration"
+        found_event=Event.find_by(event_name: event_options)
+        duration=@@prompt.ask("How long is the event?")
+        duration_change=found_event.update(duration: duration)
+        sleep 3
+        system 'clear'
+        YourEvent.home_page(role)
+      elsif navigator == "Change Location"
+        found_event=Event.find_by(event_name: event_options)
+        location=@@prompt.ask("Where is the new location?")
+        location_change=found_event.update(location: location)
+        sleep 3
+        system 'clear'
+        YourEvent.home_page(role)
+      elsif navigator == "Go back"
+          puts "Going back to the main menu!".colorize(":yellow")
+          sleep 3
+          system 'clear'
+          YourEvent.home_page(role)
+      end
+end
 end
