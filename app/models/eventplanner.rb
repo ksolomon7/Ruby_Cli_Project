@@ -2,15 +2,15 @@ class EventPlanner < ActiveRecord::Base
   has_many :events
   has_many :clients, through: :events
 
+  @@prompt=TTY::Prompt.new
   attr_accessor :yourevent
 
   def self.view_event_for_event_planner(role)
     puts "You have #{role.events.count} events!"
     parties= Event.where(event_planner_id: role.id)
-    options=parties.map { |party| party.event_name }
+    options=parties.map {|party| party.event_name}
 
-    prompt=TTY::Prompt.new
-    move= prompt.select("\n", options)
+    move=@@prompt.select("\n", options)
 
     options.select do |event|
       if event == move
@@ -44,33 +44,32 @@ class EventPlanner < ActiveRecord::Base
 end
 
     def self.create_event_for_event_planner(role)
-        prompt=TTY::Prompt.new
         
-      event_name = prompt.ask("What would you like to call your event?") 
-      date = prompt.ask("When is your event? (Enter: DD/MM/YYYY):", convert: :date)
-      location = prompt.ask("In what location, are you having this event?")
-      duration = prompt.ask("How long is your event going to be?(Enter in the format: 2 hrs)")
-      event_planner_id = prompt.ask("Validate your account number", value: "#{role.id}")
+      event_name = @@prompt.ask("What would you like to call your event?") 
+      date = @@prompt.ask("When is your event? (Enter: DD/MM/YYYY):", convert: :date)
+      location = @@prompt.ask("In what location, are you having this event?")
+      duration = @@prompt.ask("How long is your event going to be?(Enter in the format: 2 hrs)")
+      event_planner_id = @@prompt.ask("Validate your account number", value: "#{role.id}")
       client_id = Client.all.map { |client| client.name }
-      select_client_name = prompt.select("Who is your client?", client_id)
+      select_client_name = @@prompt.select("Who is your client?", client_id)
       client_name = Client.find_by(name: select_client_name).id
       Event.create(event_name: event_name, date: date, location: location, duration: duration, client_id: client_name, event_planner_id: event_planner_id)
+
        puts "\n"
        puts "Event has been created! You will be redirected to the main_menu to view the events.".colorize(:yellow)
        puts "\n"
        sleep 3
+       system 'clear'
        YourEvent.home_page(role)
     end
 
     def self.delete_event_for_event_planner(role)
       parties= Event.where(event_planner_id: role.id)
-      options=parties.map do |party|
-        party.event_name
-      end
+      options=parties.map {|party| party.event_name}
 
       puts "Which event would you like to remove?"
-      prompt=TTY::Prompt.new
-      event_options= prompt.select("\n", options)
+    
+      event_options= @@prompt.select("\n", options)
       deleting_event=Event.find_by(event_name: event_options)
       deleting_event.destroy
       puts "\n"

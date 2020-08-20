@@ -15,10 +15,6 @@ class YourEvent
 
    end
 
-   def client_or_event_planner
-    prompt.select("Are you a client or eventplanner?", %w(Client EventPlanner))
-   end
-
    def login_or_register
     option=prompt.select("Would you like to login or create an account?", %w(Login Register))
       if option == "Login" 
@@ -29,6 +25,10 @@ class YourEvent
       end
    end 
   
+   def client_or_event_planner
+    prompt.select("Are you a client or eventplanner?", %w(Client EventPlanner))
+   end
+
    def login(role_str)
        role=role_str.constantize
        puts "Please provide your email to login:".colorize(:yellow)
@@ -36,11 +36,13 @@ class YourEvent
          if role.find_by(email: email) != nil
             puts "Welcome back #{role.find_by(email: email).name}!".colorize(:yellow)
             sleep 3
-          YourEvent.main_menu(role.find_by(email: email))
+            system 'clear'
+            YourEvent.home_page(role.find_by(email: email))
+          # YourEvent.main_menu(role.find_by(email: email))
          elsif role.find_by(email: email) == nil
             puts "Sorry! This email does not exist.".colorize(:red)
             sleep 3
-            # login(client_or_event_planner)
+            system 'clear'
             login_or_register
         end
    end
@@ -54,7 +56,8 @@ class YourEvent
             key(:phone_number).ask("What is your cellphone number?")
             key(:email).ask("Verify your email")
             end
-            YourEvent.main_menu(role_str.create(result))
+            YourEvent.home_page(role_str.create(result))
+            # YourEvent.main_menu(role_str.create(result))
         elsif role_str == EventPlanner
           result = prompt.collect do
             key(:name).ask("What is your fullname?")
@@ -63,26 +66,29 @@ class YourEvent
             key(:email).ask("Verify your email")
             key(:title).ask("Are you a Senior EventPlanner or Junior EventPlanner?")
             end
-            YourEvent.main_menu(role_str.create(result))
+            YourEvent.home_page(role_str.create(result))
+            # YourEvent.main_menu(role_str.create(result))
           end
    end
 
-   def self.main_menu(role)
-      puts '*******************************************************************************************************************************'.colorize(:blue)
-      puts '                                                     MAIN MENU                                                                 '.colorize(:yellow)
-      puts '*******************************************************************************************************************************'.colorize(:blue)
-      puts "Welcome to the main menu #{role.name}! Please choose from the following options:".colorize(:yellow)
-      system 'clear'
-      YourEvent.home_page(role)
-   end
+  #  def self.main_menu(role)
+  #     puts '*******************************************************************************************************************************'.colorize(:blue)
+  #     puts '                                                     MAIN MENU                                                               '.colorize(:yellow)
+  #     puts '*******************************************************************************************************************************'.colorize(:blue)
+  #     puts "Welcome back #{role.name.capitalize}!".colorize(:yellow) 
+  #     YourEvent.home_page(role)
+  #  end
 
 
      def self.home_page(role)
-
+      puts '*******************************************************************************************************************************'.colorize(:blue)
+      puts '                                                     YOUR EVENTS                                                              '.colorize(:yellow)
+      puts '*******************************************************************************************************************************'.colorize(:blue)
+      puts "Please choose from the following options:".colorize(:yellow)
       choices = ["View Events", "Create An Event", "Update Your Events", "Delete Your Events", "Logout"]
 
       prompt=TTY::Prompt.new
-      navigator = prompt.select("\n", choices)
+      navigator =prompt.select("\n", choices)
       if navigator == "View Events"
         Event.view_events(role)
       elsif navigator == "Create An Event"
@@ -101,10 +107,10 @@ class YourEvent
       login_or_register
     end
 
-    
-
     def self.Logout
-      puts "           Come back soon.              ".colorize(:blue)
+      puts "\n"
+      puts " ❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️Come back soon.❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️".colorize(:blue)
+      puts "\n"
     end
 end
 
