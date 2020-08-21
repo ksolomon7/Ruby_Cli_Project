@@ -36,7 +36,7 @@ class YourEvent
        puts "Please provide your email to login:".colorize(:yellow)
        email=STDIN.gets.chomp.downcase
          if role.find_by(email: email) != nil
-            puts "Welcome back, #{role.find_by(email: email).name}!".colorize(:yellow)
+            puts "Welcome back, #{role.find_by(email: email).name}!".colorize(:cyan)
             sleep 3
             system 'clear'
             YourEvent.home_page(role.find_by(email: email))
@@ -58,7 +58,7 @@ class YourEvent
             key(:phone_number).ask("What is your cellphone number?")
             key(:email).ask("Verify your email")
             end
-            puts "Welcome to YourEvent page!".colorize(:yellow)
+            puts "Welcome to YourEvent page!".colorize(:magenta)
             sleep 2
             system 'clear'
             YourEvent.home_page(role_str.create(result))
@@ -70,7 +70,7 @@ class YourEvent
             key(:email).ask("Verify your email")
             key(:title).ask("Are you a Senior EventPlanner or Junior EventPlanner?")
             end
-            puts "Welcome to YourEvent page!".colorize(:yellow)
+            puts "Welcome to YourEvent page!".colorize(:magenta)
             sleep 2
             system 'clear'
             YourEvent.home_page(role_str.create(result))
@@ -82,7 +82,6 @@ class YourEvent
       puts '*******************************************************************************************************************************'.colorize(:blue)
       a= Artii::Base.new 
       puts a.asciify ('                                  YourEvent                                                                ')
-      # puts '                                  YOUR EVENTS                                                       '.colorize(:yellow)
       puts '*******************************************************************************************************************************'.colorize(:blue)
       puts "Please choose from the following options:".colorize(:yellow)
       choices = ["View Events", "Create An Event", "Update Your Events", "Delete Your Events", "Logout"]
@@ -122,7 +121,6 @@ end
    ##########################################################HELPER METHODS################################################
 
    def verify_email
-    # email=STDIN.gets.chomp.downcase
     prompt.ask("What is your email?") do |q|
       q.validate(/\A\w+@\w+\.\w+\Z/)
       q.messages[:valid?]="Invalid email address"

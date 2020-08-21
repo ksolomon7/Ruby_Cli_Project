@@ -11,6 +11,8 @@ class Client < ActiveRecord::Base
         puts "You have #{role.events.count} events!"
 
         if role.events.count == 0
+            sleep 2
+            system 'clear'
             YourEvent.home_page(role)
         else 
             parties= Event.where(client_id: role.id)
@@ -22,34 +24,34 @@ class Client < ActiveRecord::Base
           if event == move
             found_event=Event.find_by(event_name: move)
             
-            puts "***********************************************************************".colorize(:green) 
+            puts "***********************************************************************".colorize(:cyan) 
             puts "\n"
-            puts "EVENT NAME: #{found_event.event_name}".colorize(:yellow)
-            puts "DATE: #{found_event.date}".colorize(:yellow)
-            puts "LOCATION: #{found_event.location}".colorize(:yellow)
-            puts "DURATION: #{found_event.duration}".colorize(:yellow)
+            puts "EVENT NAME: #{found_event.event_name}".colorize(:magenta)
+            puts "DATE: #{found_event.date}".colorize(:magenta)
+            puts "LOCATION: #{found_event.location}".colorize(:magenta)
+            puts "DURATION: #{found_event.duration}".colorize(:magenta)
             puts "\n"
               if found_event.event_planner != nil
-            puts "EVENTPLANNER: #{found_event.event_planner.name}".colorize(:red)
+            puts "EVENTPLANNER: #{found_event.event_planner.name}".colorize(:blue)
               elsif found_event.event_planner == nil
-            puts "EVENTPLANNER: None".colorize(:red)
+            puts "EVENTPLANNER: None".colorize(:blue)
               end
               if found_event.client != nil
-            puts "CLIENT: #{found_event.client.name}".colorize(:red)
+            puts "CLIENT: #{found_event.client.name}".colorize(:blue)
               elsif found_event.client == nil
-            puts "CLIENT ACCOUNT NUMBER: #{found_event.client.id}".colorize(:red)
+            puts "CLIENT ACCOUNT NUMBER: #{found_event.client.id}".colorize(:blue)
               end
             puts "\n"
-            puts "***********************************************************************".colorize(:green) 
+            puts "***********************************************************************".colorize(:cyan) 
           end
-        end
-    end
 
         puts "\n"
         puts "....going back to the main page!!".colorize(:yellow)
         sleep 4
         system 'clear'
         YourEvent.home_page(role)
+        end
+    end
     end
 
 
@@ -84,7 +86,7 @@ class Client < ActiveRecord::Base
         end
 
         puts "Which event would you like to remove?"
-        
+
         event_options=@@prompt.select("\n", options)
         deleting_event=Event.find_by(event_name: event_options)
         deleting_event.destroy
