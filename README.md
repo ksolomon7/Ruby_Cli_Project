@@ -1,6 +1,6 @@
 YourEvent
 
-Welcome to YourEvents! A Ruby CLI that knows what fun you are up to! <YourEvents> allows Clients and Event Planners to communicate with each other by creating, reading, and updating an Event. 
+Welcome to YourEvent! A Ruby CLI that knows what fun you are up to! <YourEvents> allows Clients and Event Planners to communicate with each other by creating, reading, and updating an Event. 
 
 
 * General Info
