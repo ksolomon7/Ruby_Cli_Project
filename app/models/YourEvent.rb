@@ -7,16 +7,24 @@ class YourEvent
     @prompt=TTY::Prompt.new
    end
 
-  
+###################################################RUN METHOD###############################################################
+   def run
+    Art.picture_two
+    welcome
+    login_or_register
+   end
+   
+###########################################WELCOME MESSAGE######################################################################
    def welcome
-    puts ".....................................................................................".colorize(:white)
+    puts ".........................................................................................".colorize(:white)
     puts "\n"
-    puts "      Welcome to YourEvents. The app that knows what fun you are up to!".colorize(:yellow)
+    puts "           Welcome to YourEvent. The app that knows what fun you are up to!              ".colorize(:yellow)
     puts "\n"
-    puts ".....................................................................................".colorize(:white)
+    puts ".........................................................................................".colorize(:white)
 
    end
 
+####################################################LOGIN OR REGISTER#########################################################
    def login_or_register
     option=prompt.select("Would you like to login or create an account?", %w(Login Register))
       if option == "Login" 
@@ -26,29 +34,32 @@ class YourEvent
         register(verify_email)
       end
    end 
-  
+ 
+################################################CLIENT OR EVENT PLANNER##########################################################   
    def client_or_event_planner
     prompt.select("Are you a client or eventplanner?", %w(Client EventPlanner))
    end
 
+####################################################LOGIN METHOD#################################################################   
    def login(role_str)
        role=role_str.constantize
        puts "Please provide your email to login:".colorize(:yellow)
        email=STDIN.gets.chomp.downcase
          if role.find_by(email: email) != nil
+            puts "\n"
             puts "Welcome back, #{role.find_by(email: email).name}!".colorize(:cyan)
-            sleep 3
+            sleep 4
             system 'clear'
             YourEvent.home_page(role.find_by(email: email))
-          # YourEvent.main_menu(role.find_by(email: email))
          elsif role.find_by(email: email) == nil
             puts "Sorry! This email does not exist.".colorize(:red)
-            sleep 3
+            sleep 4 
             system 'clear'
             login_or_register
         end
    end
 
+########################################################REGISTER#################################################################
    def register(email)
      role= prompt.select("Would you like to create a Client Account or a EventPlanner Account?", %w(Client EventPlanner))
      role_str=role.constantize
@@ -77,7 +88,7 @@ class YourEvent
           end
    end
 
- 
+########################################################HOME PAGE#################################################################
      def self.home_page(role)
       puts '*******************************************************************************************************************************'.colorize(:blue)
       a= Artii::Base.new 
@@ -101,19 +112,16 @@ class YourEvent
       end
     end
 
-    def run
-      Art.picture_two
-      welcome
-      login_or_register
-    end
-
+##########################################################LOGOUT METHOD########################################################
     def self.Logout
       system 'clear'
       puts "\n"
       Art.picture_one
-      puts " ❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️Come back soon❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️".colorize(:blue)
+      a= Artii::Base.new 
+      puts a.asciify ('              Come back soon!            ')
+      # puts " ❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️Come back soon❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️".colorize(:blue)
       puts "\n"
-      sleep 2
+      sleep 4
       system 'clear'
     end
 end

@@ -1,4 +1,3 @@
-require 'pry'
 class Client < ActiveRecord::Base
     has_many :events
     has_many :event_planners, through: :events
@@ -7,6 +6,7 @@ class Client < ActiveRecord::Base
 
     attr_accessor :yourevent
 
+##############################################VIEW EVENT METHOD########################################################    
     def self.view_event_for_client(role)
         puts "You have #{role.events.count} events!"
 
@@ -44,17 +44,16 @@ class Client < ActiveRecord::Base
             puts "\n"
             puts "***********************************************************************".colorize(:cyan) 
           end
-
+        end
         puts "\n"
-        puts "....going back to the main page!!".colorize(:yellow)
-        sleep 4
+        puts "....Going back to the main page!!".colorize(:yellow)
+        sleep 6
         system 'clear'
         YourEvent.home_page(role)
-        end
     end
-    end
+end
 
-
+###############################################CREATE EVENT METHOD##############################################################
     def self.create_event_for_client(role)
         event_planner_options= EventPlanner.all.map {|event_planner| event_planner.name}
                         
@@ -79,6 +78,7 @@ class Client < ActiveRecord::Base
            YourEvent.home_page(role)
     end
 
+#######################################################DELETE METHOD#########################################################
     def self.delete_event_for_client(role)
         parties= Event.where(client_id: role.id)
         options=parties.map do |party|
@@ -97,6 +97,7 @@ class Client < ActiveRecord::Base
         YourEvent.home_page(role)
     end
 
+#################################################UPDATE EVENT METHOD#########################################################
     def self.update_event_for_client(role)
             parties= Event.where(client_id: role.id)
             options=parties.map {|party|party.event_name}
@@ -134,7 +135,7 @@ class Client < ActiveRecord::Base
               system 'clear'
               YourEvent.home_page(role)
             elsif navigator == "Go back"
-                puts "Going back to the main menu!".colorize(":yellow")
+                puts "Going back to the main menu!".colorize(:yellow)
                 sleep 3
                 system 'clear'
                 YourEvent.home_page(role)

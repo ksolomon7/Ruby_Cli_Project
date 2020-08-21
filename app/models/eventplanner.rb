@@ -5,6 +5,8 @@ class EventPlanner < ActiveRecord::Base
   @@prompt=TTY::Prompt.new
   attr_accessor :yourevent
 
+
+##############################################VIEW EVENT METHOD########################################################
   def self.view_event_for_event_planner(role)
     puts "You have #{role.events.count} events!"
     
@@ -12,7 +14,7 @@ class EventPlanner < ActiveRecord::Base
       sleep 2
       system 'clear'
       YourEvent.home_page(role)
-  else 
+    else 
     parties= Event.where(event_planner_id: role.id)
     options=parties.map {|party| party.event_name}
 
@@ -42,14 +44,16 @@ class EventPlanner < ActiveRecord::Base
         puts "\n"
         puts "***********************************************************************".colorize(:cyan) 
       end
+    end
     puts "\n"
     puts "....going back to the main page!!".colorize(:white)
-    sleep 4
+    sleep 6
     system 'clear'
     YourEvent.home_page(role)
     end
-  end
 end
+
+###############################################CREATE EVENT METHOD##############################################################
 
     def self.create_event_for_event_planner(role)
         
@@ -71,6 +75,7 @@ end
        YourEvent.home_page(role)
     end
 
+#######################################################DELETE METHOD#########################################################
     def self.delete_event_for_event_planner(role)
       parties= Event.where(event_planner_id: role.id)
       options=parties.map {|party| party.event_name}
@@ -86,6 +91,8 @@ end
       system 'clear'
       YourEvent.home_page(role)
     end
+
+#################################################UPDATE EVENT METHOD#########################################################
 
     def self.update_event_for_event_planner(role)
       parties= Event.where(event_planner_id: role.id)
@@ -124,10 +131,11 @@ end
         system 'clear'
         YourEvent.home_page(role)
       elsif navigator == "Go back"
-          puts "Going back to the main menu!".colorize(":yellow")
+          puts "Going back to the main menu!".colorize(:yellow)
           sleep 3
           system 'clear'
           YourEvent.home_page(role)
       end
 end
+
 end
