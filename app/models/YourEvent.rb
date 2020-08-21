@@ -128,6 +128,8 @@ end
 
    ##########################################################HELPER METHODS################################################
 
+####credit for piotr-tty prompt documentation############
+
    def verify_email
     prompt.ask("What is your email?") do |q|
       q.validate(/\A\w+@\w+\.\w+\Z/)
