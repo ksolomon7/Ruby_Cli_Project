@@ -1,4 +1,4 @@
-Welcome to YourEvent! A Ruby CLI that knows what fun you are up to! <YourEvents> allows Clients and Event Planners to communicate with each other by creating, reading, and updating an Event. 
+Welcome to YourEvent! A Ruby CLI that knows what fun you are up to! YourEvents allows Clients and Event Planners to communicate with each other by creating, reading, and updating an Event. 
 
 ### General Info
 	When creating this project, we took inspiration from our previous careers in the retail and hospitality industry. Coming from a similar background where we both worked with clienteles, our goal and purpose for this project is to create a tool that improves communication between the event planner and client.  This tool helps to organize events, such as birthday parties, weddings, corporate events, and other gatherings.  This Ruby CLI will ensure all event details meet their user’s specifications and Event planner may work with client to arrange their services.
